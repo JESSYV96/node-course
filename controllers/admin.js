@@ -28,22 +28,29 @@ export const getEditProduct = (req, res, next) => {
 }
 
 export const getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('admin/products', {
-      prods: products,
-      pageTitle: 'Admin Products',
-      path: '/products'
-    });
-  });
+  Product.findAll()
+    .then(products => {
+      res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/products'
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
-
 export const addNewProduct = (req, res, next) => {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const product = new Product(null, title, imageUrl, description, price);
-  product.save();
+  Product.create({
+    title,
+    price,
+    imageUrl,
+    description
+  }).then().catch(err => console.log(err))
   res.redirect('/');
 }
 

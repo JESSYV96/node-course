@@ -1,27 +1,27 @@
-import { Sequelize, DataTypes } from 'sequelize'
+import { Sequelize } from 'sequelize';
 import sequelize from '../utils/db.js'
 
 const Product = sequelize.define('Product', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
     title: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
     price: {
-        type: DataTypes.DOUBLE,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: false
     },
     imageUrl: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
     description: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
 })

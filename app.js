@@ -20,10 +20,9 @@ app.use(shopRoutes);
 
 app.use(get404);
 
-try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
-app.listen(3000);
+sequelize.sync().then(r => {
+    app.listen(3000);
+}).catch(err => {
+    console.log(err)
+});
+

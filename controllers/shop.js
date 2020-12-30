@@ -2,7 +2,7 @@ import Product from '../models/Product.js'
 import Cart from '../models/Cart.js'
 
 export const getIndex = (req, res, next) => {
-    Product.fetchAll(products => {
+    Product.findAll().then(products => {
         res.render('shop/index', {
             prods: products,
             pageTitle: 'Boutique',
@@ -12,16 +12,19 @@ export const getIndex = (req, res, next) => {
 }
 
 export const getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
-        res.render('shop/product-list', {
-            prods: products,
-            pageTitle: 'Produits',
-            path: '/products',
-            hasProducts: products.length > 0,
-            activeShop: true,
-            productCSS: true
+    Product.findAll()
+        .then(products => {
+            res.render('shop/product-list', {
+                prods: products,
+                pageTitle: 'Produits',
+                path: '/products',
+                hasProducts: products.length > 0,
+                activeShop: true,
+                productCSS: true
+            });
+        }).catch((err) => {
+            console.log(err)
         });
-    })
 }
 
 export const getProduct = (req, res, next) => {
@@ -40,7 +43,7 @@ export const getCart = (req, res, next) => {
         path: '/cart',
         pageTitle: 'Your Cart'
     });
-   
+
 }
 
 export const addToCart = (req, res, next) => {
@@ -54,10 +57,10 @@ export const addToCart = (req, res, next) => {
 export const cartDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
     Product.findById(prodId, product => {
-      Cart.deleteProduct(prodId, product.price);
-      res.redirect('/cart');
+        Cart.deleteProduct(prodId, product.price);
+        res.redirect('/cart');
     });
-  };
+};
 
 export const getOrders = (req, res, next) => {
     res.render('shop/orders', {
